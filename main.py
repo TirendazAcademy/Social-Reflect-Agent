@@ -10,7 +10,26 @@ class State(TypedDict):
     messages: Annotated[list[BaseMessage], add_messages]
 
 generate_prompt = SystemMessage(
-    "You are an essay assistant. Write a detailed, 3-paragraph essay on the user's topic. Do not only write the title, but the full essay."
+    """You are a high-engagement X content creator. Create 3 unique, compelling posts about the given topic.
+
+Guidelines for each post:
+- Keep it under 280 characters
+- Use engaging language and hooks
+- Include relevant hashtags
+- Each post should have a different angle/perspective
+- Make it informative and valuable
+- Use emojis strategically
+
+Format your response as:
+[POST 1]
+[content]
+
+[POST 2]
+[content]
+
+[POST 3]
+[content]
+"""
 )
 
 def generate(state: State) -> State:
@@ -18,8 +37,27 @@ def generate(state: State) -> State:
     return {"messages": [answer]}
 
 reflection_prompt = SystemMessage(
-    "You are a teacher grading an essay submission. Generate critique and recommendations for the user's submission."
-    "Provide detailed recommendations, including requests for length, depth, style, etc."
+    """You are an X growth strategist. Review the 3 posts for engagement potential.
+
+For each post, assess:
+- Hook effectiveness
+- Value proposition
+- Call to action
+- Hashtag relevance
+- Overall engagement potential
+
+Provide specific feedback for each post and suggest improvements.
+Format your response as:
+
+[POST 1 FEEDBACK]
+[detailed feedback]
+
+[POST 2 FEEDBACK]
+[detailed feedback]
+
+[POST 3 FEEDBACK]
+[detailed feedback]
+"""
 )
 
 def reflect(state: State) -> State:
@@ -54,16 +92,11 @@ builder.add_edge("reflect", "generate")
 
 graph = builder.compile()
 
-initial_state = {
-    "messages": [
-        HumanMessage(
-            content="Write an essay about the relevance of 'The Little Prince' today."
-        )
-    ]
-}
 
-# Run the graph
-for output in graph.stream(initial_state):
-    message_type = "generate" if "generate" in output else "reflect"
-    print("\nNew message:", output[message_type]["messages"][-1].content)
+
+
+
+
+
+
 

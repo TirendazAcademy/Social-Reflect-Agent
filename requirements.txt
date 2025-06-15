@@ -1,3 +1,10 @@
 langchain 
 langchain-ollama 
 langgraph
+langgraph-cli[inmem]
+langchain-core
+tqdm
+beautifulsoup4
+requests
+streamlit
+pyperclip
